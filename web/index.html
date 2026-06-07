@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <title>Welcome | E-Disiplin</title>
+	<link rel="stylesheet" href="css/styles.css">
+	<style>
+       body {
+            font-family: Tinos, sans-serif;
+            background: url("img/background.jpg");
+            background-size: cover;     
+            background-repeat: no-repeat;
+            margin: 0px;
+            height: 115vh;               
+            display: flex;   
+            justify-content: center;    
+            align-items: center; 
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            width: 700px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, textarea {
+            width: 95%;
+            margin: 8px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+.button {
+    font-family: Tinos, sans-serif;
+    background: #527FFA;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block; 
+    margin: 0px;
+    cursor: pointer;
+}
+.button:hover {
+    background: #2C4485;
+}
+		.card-img {
+			width: 20%;
+			height: auto;
+			object-fit: cover;
+			border-radius: 5px 5px 0 0;
+			margin-bottom: 0px;
+		}
+	</style>
+</head>
+<body>
+    <div class="container">
+        <center><img src="img/logo.png" alt="E-Disiplin" class="card-img"></center>
+        <center><h1>Welcome to E-Disiplin!</h1></center>
+        <body>
+            <p><center>Login to your account</center></p>
+
+        <p id="error-message" style="color: red; display: none;"></p>
+
+        <form id="loginForm">
+            <label for="email">Staff ID</label>
+            <input type="email" id="staffID" name="email" placeholder="Enter your staff ID" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <br>
+            <br>
+            <div style="text-align: center;">
+            <button type="submit" class="button">→ LOGIN</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
+
