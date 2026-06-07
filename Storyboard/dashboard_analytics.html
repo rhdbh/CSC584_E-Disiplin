@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard & Analytics | E-Disiplin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── Reset & Variables ─────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --navy:       #07145c;
+            --navy-dark:  #02072d;
+            --navy-mid:   #0e1f7a;
+            --accent:     #2f5bea;
+            --accent-lt:  #eef2fd;
+            --green:      #16a34a;
+            --green-lt:   #dcfce7;
+            --amber:      #d97706;
+            --amber-lt:   #fef3c7;
+            --red:        #dc2626;
+            --red-lt:     #fee2e2;
+            --text:       #1e293b;
+            --muted:      #64748b;
+            --border:     #e2e8f0;
+            --bg:         #f1f5f9;
+            --white:      #ffffff;
+            --sidebar-w:  230px;
+            --font:       'Outfit', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ───────────────────────────────────────── */
+        .sidebar {
+            width: var(--sidebar-w);
+            min-height: 100vh;
+            background: linear-gradient(175deg, var(--navy-mid) 0%, var(--navy-dark) 100%);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 22px 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 36px; height: 36px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+
+        .brand-text {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 17px;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-sub {
+            color: rgba(255,255,255,0.45);
+            font-size: 10px;
+            font-weight: 400;
+            margin-top: 1px;
+        }
+
+        .sidebar-nav {
+            padding: 14px 10px;
+            flex: 1;
+        }
+
+        .nav-section-label {
+            color: rgba(255,255,255,0.35);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 10px 10px 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 10px;
+            border-radius: 7px;
+            color: rgba(255,255,255,0.62);
+            font-size: 13.5px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            margin-bottom: 2px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+        .nav-item.active {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+
+        .sidebar-footer {
+            padding: 14px 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 32px; height: 32px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .user-name { color: #fff; font-size: 12.5px; font-weight: 600; }
+        .user-role { color: rgba(255,255,255,0.42); font-size: 10.5px; }
+
+        /* ── Main Content ──────────────────────────────────── */
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Top Bar ───────────────────────────────────────── */
+        .topbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky; top: 0; z-index: 50;
+        }
+
+        .topbar-left h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .topbar-left p {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .date-badge {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .export-btn {
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 7px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font);
+        }
+
+        /* ── Content Area ──────────────────────────────────── */
+        .content {
+            padding: 24px 28px;
+            flex: 1;
+        }
+
+        /* ── KPI Cards ─────────────────────────────────────── */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .kpi-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .kpi-card.blue::before   { background: var(--accent); }
+        .kpi-card.green::before  { background: var(--green);  }
+        .kpi-card.amber::before  { background: var(--amber);  }
+        .kpi-card.red::before    { background: var(--red);    }
+
+        .kpi-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .kpi-icon {
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px;
+        }
+
+        .kpi-card.blue  .kpi-icon { background: var(--accent-lt); }
+        .kpi-card.green .kpi-icon { background: var(--green-lt);  }
+        .kpi-card.amber .kpi-icon { background: var(--amber-lt);  }
+        .kpi-card.red   .kpi-icon { background: var(--red-lt);    }
+
+        .kpi-value {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1;
+        }
+
+        .kpi-card.blue  .kpi-value { color: var(--accent); }
+        .kpi-card.green .kpi-value { color: var(--green);  }
+        .kpi-card.amber .kpi-value { color: var(--amber);  }
+        .kpi-card.red   .kpi-value { color: var(--red);    }
+
+        .kpi-sub {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .kpi-tag {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-size: 10.5px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .tag-up   { background: var(--green-lt); color: var(--green); }
+        .tag-down { background: var(--red-lt);   color: var(--red);   }
+        .tag-same { background: var(--amber-lt); color: var(--amber); }
+
+        /* ── Two-column Layout ─────────────────────────────── */
+        .row { display: grid; gap: 18px; margin-bottom: 18px; }
+        .row-2-1 { grid-template-columns: 2fr 1fr; }
+        .row-equal { grid-template-columns: 1fr 1fr; }
+        .row-full  { grid-template-columns: 1fr; }
+
+        /* ── Section Card ──────────────────────────────────── */
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 22px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .card-title {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .card-subtitle {
+            font-size: 11.5px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-blue  { background: var(--accent-lt); color: var(--accent); }
+        .badge-green { background: var(--green-lt);  color: var(--green);  }
+        .badge-amber { background: var(--amber-lt);  color: var(--amber);  }
+        .badge-red   { background: var(--red-lt);    color: var(--red);    }
+        .badge-navy  { background: #e8ecf8;           color: var(--navy);   }
+
+        /* ── Bar Chart ─────────────────────────────────────── */
+        .bar-list { display: flex; flex-direction: column; gap: 14px; }
+
+        .bar-item { }
+
+        .bar-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .bar-name { font-size: 13px; font-weight: 500; color: var(--text); }
+        .bar-stat { font-size: 12px; font-weight: 600; color: var(--muted); }
+
+        .bar-track {
+            height: 10px;
+            background: var(--bg);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            transition: width 0.5s ease;
+        }
+
+        .fill-blue  { background: var(--accent); }
+        .fill-green { background: var(--green);  }
+        .fill-amber { background: var(--amber);  }
+        .fill-red   { background: var(--red);    }
+        .fill-navy  { background: var(--navy);   }
+
+        /* ── Donut Rings (CSS only) ────────────────────────── */
+        .donut-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .donut-ring {
+            position: relative;
+            width: 130px; height: 130px;
+        }
+
+        .donut-ring svg { transform: rotate(-90deg); }
+
+        .donut-ring .donut-bg { fill: none; stroke: var(--bg); stroke-width: 14; }
+        .donut-ring .donut-seg { fill: none; stroke-width: 14; stroke-linecap: round; }
+
+        .donut-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .donut-pct  { font-size: 22px; font-weight: 700; color: var(--navy); line-height: 1; }
+        .donut-lbl  { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+        .donut-legend { width: 100%; }
+
+        .legend-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+        }
+
+        .legend-row:last-child { border-bottom: none; }
+
+        .legend-left { display: flex; align-items: center; gap: 8px; }
+        .legend-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .legend-name { color: var(--text); font-weight: 500; }
+        .legend-val  { color: var(--muted); font-weight: 600; }
+
+        /* ── Table ─────────────────────────────────────────── */
+        .tbl-wrap { overflow-x: auto; }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        thead th {
+            background: var(--bg);
+            padding: 9px 12px;
+            text-align: left;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr { border-bottom: 1px solid var(--border); }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: #fafbff; }
+
+        tbody td {
+            padding: 10px 12px;
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .td-id { font-weight: 600; color: var(--muted); font-family: monospace; font-size: 12px; }
+        .td-name { font-weight: 600; color: var(--navy); }
+
+        .status-pill {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .pill-green  { background: var(--green-lt);  color: var(--green); }
+        .pill-amber  { background: var(--amber-lt);  color: var(--amber); }
+        .pill-red    { background: var(--red-lt);    color: var(--red);   }
+        .pill-blue   { background: var(--accent-lt); color: var(--accent);}
+        .pill-navy   { background: #e8ecf8;           color: var(--navy);  }
+
+        .action-btn {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--accent-lt);
+            color: var(--accent);
+            border: 1px solid #c7d5fb;
+        }
+
+        /* ── Severity Bar ──────────────────────────────────── */
+        .sev-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .sev-card {
+            border-radius: 8px;
+            padding: 14px 12px;
+            text-align: center;
+        }
+
+        .sev-card.low    { background: var(--green-lt); }
+        .sev-card.medium { background: var(--amber-lt); }
+        .sev-card.high   { background: var(--red-lt);   }
+
+        .sev-num  { font-size: 26px; font-weight: 700; }
+        .sev-lbl  { font-size: 11px; font-weight: 600; margin-top: 2px; }
+        .sev-sub  { font-size: 10.5px; margin-top: 3px; }
+
+        .sev-card.low    .sev-num { color: var(--green); }
+        .sev-card.medium .sev-num { color: var(--amber); }
+        .sev-card.high   .sev-num { color: var(--red);   }
+        .sev-card.low    .sev-lbl { color: var(--green); }
+        .sev-card.medium .sev-lbl { color: var(--amber); }
+        .sev-card.high   .sev-lbl { color: var(--red);   }
+        .sev-card .sev-sub { color: var(--muted); }
+
+        /* ── Progress Bar ──────────────────────────────────── */
+        .prog-bar-wrap {
+            margin-bottom: 14px;
+        }
+
+        .prog-bar-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            margin-bottom: 6px;
+        }
+
+        .prog-bar-label { font-weight: 500; color: var(--text); }
+        .prog-bar-value { font-weight: 600; }
+
+        .prog-track {
+            height: 12px;
+            background: var(--bg);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .prog-fill {
+            height: 100%;
+            border-radius: 99px;
+        }
+
+        /* ── Trend Mini Line Chart (CSS only) ──────────────── */
+        .trend-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 60px;
+            padding: 0 0 4px;
+        }
+
+        .trend-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+        .trend-col {
+            width: 100%;
+            background: linear-gradient(to top, var(--accent), #7ca0f5);
+            border-radius: 3px 3px 0 0;
+            min-height: 4px;
+            opacity: 0.85;
+        }
+
+        .trend-month { font-size: 9.5px; color: var(--muted); font-weight: 500; }
+
+        /* ── Action Type Summary ───────────────────────────── */
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .action-tile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+
+        .action-tile-icon {
+            width: 32px; height: 32px;
+            border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .action-tile-label { font-size: 12px; font-weight: 500; color: var(--muted); }
+        .action-tile-count { font-size: 18px; font-weight: 700; color: var(--navy); }
+
+        /* ── Divider ───────────────────────────────────────── */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 14px 0;
+        }
+
+        /* ── Footer note ───────────────────────────────────── */
+        .page-footer {
+            text-align: center;
+            padding: 16px 28px;
+            font-size: 11.5px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            background: var(--white);
+        }
+
+        /* ── Scrollbar ─────────────────────────────────────── */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <div class="brand-logo">
+            <div class="brand-icon">⚖️</div>
+            <div>
+                <div class="brand-text">E-Disiplin</div>
+                <div class="brand-sub">DISCIPLINE MANAGEMENT</div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-section-label">Main Menu</div>
+        <a class="nav-item" href="dashboard.html">
+            <span class="nav-icon">🏠</span> Main Dashboard
+        </a>
+
+        <div class="nav-section-label">Discipline</div>
+        <a class="nav-item" href="#">
+            <span class="nav-icon">📋</span> Incident Records
+        </a>
+        <a class="nav-item" href="#">
+            <span class="nav-icon">⚡</span> Actions Taken
+        </a>
+        <a class="nav-item" href="#">
+            <span class="nav-icon">👤</span> Student Profile
+        </a>
+
+        <div class="nav-section-label">Counseling</div>
+        <a class="nav-item" href="#">
+            <span class="nav-icon">📅</span> Appointments
+        </a>
+        <a class="nav-item" href="#">
+            <span class="nav-icon">📝</span> Session Notes
+        </a>
+
+        <div class="nav-section-label">Reports</div>
+        <a class="nav-item active" href="#">
+            <span class="nav-icon">📊</span> Dashboard & Analytics
+        </a>
+        <a class="nav-item" href="#">
+            <span class="nav-icon">📤</span> Export Reports
+        </a>
+
+        <div class="nav-section-label">System</div>
+        <a class="nav-item" href="#">
+            <span class="nav-icon">👥</span> Manage Officers
+        </a>
+        <a class="nav-item" href="#">
+            <span class="nav-icon">🔧</span> Settings
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="user-card">
+            <div class="user-avatar">HO</div>
+            <div>
+                <div class="user-name">HEP Officer</div>
+                <div class="user-role">Admin</div>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<div class="main">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <h1>Dashboard &amp; Analytics</h1>
+            <p>Overview of discipline cases, counseling sessions, and offense trends</p>
+        </div>
+        <div class="topbar-right">
+            <div class="date-badge">📅 Academic Year 2024/2025 — Sem 2</div>
+            <button class="export-btn">⬇ Export Report</button>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+        <!-- ── KPI Cards ── -->
+        <div class="kpi-grid">
+            <div class="kpi-card blue">
+                <div class="kpi-header">
+                    <div class="kpi-label">Total Disciplinary<br>Incidents</div>
+                    <div class="kpi-icon">📋</div>
+                </div>
+                <div class="kpi-value">128</div>
+                <div class="kpi-sub">Recorded this semester</div>
+                <div class="kpi-tag tag-up">▲ 12% vs last sem</div>
+            </div>
+
+            <div class="kpi-card amber">
+                <div class="kpi-header">
+                    <div class="kpi-label">Active<br>Investigations</div>
+                    <div class="kpi-icon">🔍</div>
+                </div>
+                <div class="kpi-value">23</div>
+                <div class="kpi-sub">Pending resolution</div>
+                <div class="kpi-tag tag-same">⬤ Requires attention</div>
+            </div>
+
+            <div class="kpi-card green">
+                <div class="kpi-header">
+                    <div class="kpi-label">Counseling<br>Success Rate</div>
+                    <div class="kpi-icon">✅</div>
+                </div>
+                <div class="kpi-value">76%</div>
+                <div class="kpi-sub">82 of 108 sessions</div>
+                <div class="kpi-tag tag-up">▲ 5% vs last sem</div>
+            </div>
+
+            <div class="kpi-card red">
+                <div class="kpi-header">
+                    <div class="kpi-label">Repeated<br>Offenders</div>
+                    <div class="kpi-icon">⚠️</div>
+                </div>
+                <div class="kpi-value">12</div>
+                <div class="kpi-sub">Students with ≥ 3 offenses</div>
+                <div class="kpi-tag tag-down">▲ 2 new this sem</div>
+            </div>
+        </div>
+
+        <!-- ── Row 1: Offense Trends + Incident by Severity ── -->
+        <div class="row row-2-1">
+
+            <!-- Offense Trends Bar Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Common Campus Offenses</div>
+                        <div class="card-subtitle">By offense type (OFFENSE_TYPE) — current semester</div>
+                    </div>
+                    <span class="badge badge-navy">4 Types</span>
+                </div>
+
+                <div class="bar-list">
+                    <div class="bar-item">
+                        <div class="bar-meta">
+                            <span class="bar-name">Late Attendance</span>
+                            <span class="bar-stat">40 cases &nbsp;|&nbsp; 31%</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill fill-blue" style="width:85%"></div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-meta">
+                            <span class="bar-name">Skipping Class</span>
+                            <span class="bar-stat">32 cases &nbsp;|&nbsp; 25%</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill fill-amber" style="width:68%"></div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-meta">
+                            <span class="bar-name">Improper Uniform</span>
+                            <span class="bar-stat">25 cases &nbsp;|&nbsp; 20%</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill fill-green" style="width:55%"></div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-meta">
+                            <span class="bar-name">Disrespectful Behaviour</span>
+                            <span class="bar-stat">18 cases &nbsp;|&nbsp; 14%</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill fill-red" style="width:40%"></div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-meta">
+                            <span class="bar-name">Other Offenses</span>
+                            <span class="bar-stat">13 cases &nbsp;|&nbsp; 10%</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill fill-navy" style="width:27%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Mini monthly trend -->
+                <div style="margin-bottom:6px">
+                    <div class="card-title" style="font-size:12.5px; margin-bottom:10px; color:var(--muted); font-weight:600;">Monthly Incident Trend</div>
+                    <div class="trend-chart">
+                        <div class="trend-bar-wrap"><div class="trend-col" style="height:32px"></div><div class="trend-month">Jan</div></div>
+                        <div class="trend-bar-wrap"><div class="trend-col" style="height:44px"></div><div class="trend-month">Feb</div></div>
+                        <div class="trend-bar-wrap"><div class="trend-col" style="height:28px"></div><div class="trend-month">Mar</div></div>
+                        <div class="trend-bar-wrap"><div class="trend-col" style="height:52px"></div><div class="trend-month">Apr</div></div>
+                        <div class="trend-bar-wrap"><div class="trend-col" style="height:36px"></div><div class="trend-month">May</div></div>
+                        <div class="trend-bar-wrap"><div class="trend-col" style="height:48px"></div><div class="trend-month">Jun</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Incident by Severity -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Incident Severity</div>
+                        <div class="card-subtitle">By severity_level field</div>
+                    </div>
+                </div>
+
+                <div class="sev-grid">
+                    <div class="sev-card low">
+                        <div class="sev-num">67</div>
+                        <div class="sev-lbl">LOW</div>
+                        <div class="sev-sub">52%</div>
+                    </div>
+                    <div class="sev-card medium">
+                        <div class="sev-num">42</div>
+                        <div class="sev-lbl">MEDIUM</div>
+                        <div class="sev-sub">33%</div>
+                    </div>
+                    <div class="sev-card high">
+                        <div class="sev-num">19</div>
+                        <div class="sev-lbl">HIGH</div>
+                        <div class="sev-sub">15%</div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Incident Status -->
+                <div class="card-title" style="font-size:12.5px; margin-bottom:10px;">Incident Status</div>
+                <div class="bar-list">
+                    <div class="bar-item">
+                        <div class="bar-meta">
+                            <span class="bar-name" style="font-size:12px;">Resolved</span>
+                            <span class="bar-stat">89</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill fill-green" style="width:70%"></div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-meta">
+                            <span class="bar-name" style="font-size:12px;">Open / Pending</span>
+                            <span class="bar-stat">23</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill fill-amber" style="width:20%"></div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-meta">
+                            <span class="bar-name" style="font-size:12px;">Escalated</span>
+                            <span class="bar-stat">16</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill fill-red" style="width:13%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Actions Taken -->
+                <div class="card-title" style="font-size:12.5px; margin-bottom:10px;">Actions Taken (ACTION_TAKEN)</div>
+                <div class="action-grid">
+                    <div class="action-tile">
+                        <div class="action-tile-icon" style="background:var(--accent-lt);">🗣️</div>
+                        <div>
+                            <div class="action-tile-label">Counseling</div>
+                            <div class="action-tile-count">54</div>
+                        </div>
+                    </div>
+                    <div class="action-tile">
+                        <div class="action-tile-icon" style="background:var(--amber-lt);">⚠️</div>
+                        <div>
+                            <div class="action-tile-label">Warning Issued</div>
+                            <div class="action-tile-count">38</div>
+                        </div>
+                    </div>
+                    <div class="action-tile">
+                        <div class="action-tile-icon" style="background:var(--green-lt);">👀</div>
+                        <div>
+                            <div class="action-tile-label">Monitoring</div>
+                            <div class="action-tile-count">22</div>
+                        </div>
+                    </div>
+                    <div class="action-tile">
+                        <div class="action-tile-icon" style="background:var(--red-lt);">📛</div>
+                        <div>
+                            <div class="action-tile-label">Suspension</div>
+                            <div class="action-tile-count">14</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Row 2: Counseling Sessions ── -->
+        <div class="row row-equal">
+
+            <!-- Counseling Appointment Status -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Counseling Appointments</div>
+                        <div class="card-subtitle">COUNSELING_APPOINTMENT — appointment_status</div>
+                    </div>
+                    <span class="badge badge-green">108 Total</span>
+                </div>
+
+                <div class="donut-wrap">
+                    <!-- SVG Donut Ring -->
+                    <div class="donut-ring">
+                        <svg viewBox="0 0 42 42" width="130" height="130">
+                            <circle class="donut-bg" cx="21" cy="21" r="15.915"></circle>
+                            <!-- Completed: 76% of circumference 100.0 ≈ 76 -->
+                            <circle class="donut-seg" cx="21" cy="21" r="15.915"
+                                stroke="#16a34a"
+                                stroke-dasharray="76 24"
+                                stroke-dashoffset="0"></circle>
+                            <!-- Pending: 17% -->
+                            <circle class="donut-seg" cx="21" cy="21" r="15.915"
+                                stroke="#d97706"
+                                stroke-dasharray="17 83"
+                                stroke-dashoffset="-76"></circle>
+                            <!-- Cancelled: 7% -->
+                            <circle class="donut-seg" cx="21" cy="21" r="15.915"
+                                stroke="#dc2626"
+                                stroke-dasharray="7 93"
+                                stroke-dashoffset="-93"></circle>
+                        </svg>
+                        <div class="donut-center">
+                            <div class="donut-pct">76%</div>
+                            <div class="donut-lbl">Completed</div>
+                        </div>
+                    </div>
+
+                    <div class="donut-legend" style="width:100%">
+                        <div class="legend-row">
+                            <div class="legend-left">
+                                <div class="legend-dot" style="background:var(--green)"></div>
+                                <div class="legend-name">Completed</div>
+                            </div>
+                            <div class="legend-val">82 &nbsp;<span class="status-pill pill-green">76%</span></div>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-left">
+                                <div class="legend-dot" style="background:var(--amber)"></div>
+                                <div class="legend-name">Pending</div>
+                            </div>
+                            <div class="legend-val">18 &nbsp;<span class="status-pill pill-amber">17%</span></div>
+                        </div>
+                        <div class="legend-row">
+                            <div class="legend-left">
+                                <div class="legend-dot" style="background:var(--red)"></div>
+                                <div class="legend-name">Cancelled</div>
+                            </div>
+                            <div class="legend-val">8 &nbsp;&nbsp;<span class="status-pill pill-red">7%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Counseling Session Completion -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Session Completion Details</div>
+                        <div class="card-subtitle">COUNSELING_SESSION — completion_status</div>
+                    </div>
+                </div>
+
+                <div class="prog-bar-wrap">
+                    <div class="prog-bar-meta">
+                        <span class="prog-bar-label">Sessions Completed</span>
+                        <span class="prog-bar-value" style="color:var(--green)">82 / 108</span>
+                    </div>
+                    <div class="prog-track">
+                        <div class="prog-fill fill-green" style="width:76%"></div>
+                    </div>
+                </div>
+
+                <div class="prog-bar-wrap">
+                    <div class="prog-bar-meta">
+                        <span class="prog-bar-label">Pending Follow-up</span>
+                        <span class="prog-bar-value" style="color:var(--amber)">18 / 108</span>
+                    </div>
+                    <div class="prog-track">
+                        <div class="prog-fill fill-amber" style="width:17%"></div>
+                    </div>
+                </div>
+
+                <div class="prog-bar-wrap">
+                    <div class="prog-bar-meta">
+                        <span class="prog-bar-label">Cancelled Sessions</span>
+                        <span class="prog-bar-value" style="color:var(--red)">8 / 108</span>
+                    </div>
+                    <div class="prog-track">
+                        <div class="prog-fill fill-red" style="width:7%"></div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="tbl-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Sessions</th>
+                                <th>Percentage</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="status-pill pill-green">Completed</span></td>
+                                <td style="font-weight:600">82</td>
+                                <td>76%</td>
+                                <td><span style="color:var(--green); font-size:12px; font-weight:600">▲ Good</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-pill pill-amber">Pending</span></td>
+                                <td style="font-weight:600">18</td>
+                                <td>17%</td>
+                                <td><span style="color:var(--amber); font-size:12px; font-weight:600">⬤ Monitor</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="status-pill pill-red">Cancelled</span></td>
+                                <td style="font-weight:600">8</td>
+                                <td>7%</td>
+                                <td><span style="color:var(--red); font-size:12px; font-weight:600">▼ Review</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Row 3: Repeated Offenders Table ── -->
+        <div class="row row-full">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Students with Repeated Offenses</div>
+                        <div class="card-subtitle">Students with 3 or more incidents — linked to DISCIPLINARY_INCIDENT and STUDENT tables</div>
+                    </div>
+                    <span class="badge badge-red">12 Students</span>
+                </div>
+
+                <div class="tbl-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Programme</th>
+                                <th>Semester</th>
+                                <th>Total Offenses</th>
+                                <th>Latest Offense</th>
+                                <th>Severity</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-id">S1021</td>
+                                <td class="td-name">Aiman Hakimi</td>
+                                <td>CS230</td>
+                                <td>3</td>
+                                <td style="font-weight:700; color:var(--amber)">4</td>
+                                <td>Late Attendance</td>
+                                <td><span class="status-pill pill-amber">Medium</span></td>
+                                <td><span class="status-pill pill-blue">Open</span></td>
+                                <td><span class="action-btn">Refer to Counselor</span></td>
+                            </tr>
+                            <tr>
+                                <td class="td-id">S1045</td>
+                                <td class="td-name">Nur Aisyah</td>
+                                <td>BM214</td>
+                                <td>2</td>
+                                <td style="font-weight:700; color:var(--amber)">3</td>
+                                <td>Skipping Class</td>
+                                <td><span class="status-pill pill-amber">Medium</span></td>
+                                <td><span class="status-pill pill-navy">Monitoring</span></td>
+                                <td><span class="action-btn">Monitor Student</span></td>
+                            </tr>
+                            <tr>
+                                <td class="td-id">S1108</td>
+                                <td class="td-name">Daniel Tan</td>
+                                <td>EE301</td>
+                                <td>4</td>
+                                <td style="font-weight:700; color:var(--red)">5</td>
+                                <td>Disrespectful Behaviour</td>
+                                <td><span class="status-pill pill-red">High</span></td>
+                                <td><span class="status-pill pill-blue">Open</span></td>
+                                <td><span class="action-btn">Counseling Scheduled</span></td>
+                            </tr>
+                            <tr>
+                                <td class="td-id">S1072</td>
+                                <td class="td-name">Siti Rahmah</td>
+                                <td>IS220</td>
+                                <td>2</td>
+                                <td style="font-weight:700; color:var(--amber)">3</td>
+                                <td>Improper Uniform</td>
+                                <td><span class="status-pill pill-green">Low</span></td>
+                                <td><span class="status-pill pill-green">Resolved</span></td>
+                                <td><span class="action-btn">Warning Issued</span></td>
+                            </tr>
+                            <tr>
+                                <td class="td-id">S1096</td>
+                                <td class="td-name">Muhammad Rizal</td>
+                                <td>CS230</td>
+                                <td>3</td>
+                                <td style="font-weight:700; color:var(--amber)">4</td>
+                                <td>Late Attendance</td>
+                                <td><span class="status-pill pill-amber">Medium</span></td>
+                                <td><span class="status-pill pill-blue">Open</span></td>
+                                <td><span class="action-btn">Refer to Counselor</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-top:12px; font-size:12px; color:var(--muted);">
+                    ⚠️ Showing top 5 of 12 repeated offenders. Click <a href="#" style="color:var(--accent);">View All</a> to see full list.
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /content -->
+
+    <div class="page-footer">
+        E-Disiplin System &nbsp;|&nbsp; Dashboard &amp; Analytics &nbsp;|&nbsp; Data reflects current academic semester &nbsp;|&nbsp; For internal use only
+    </div>
+
+</div><!-- /main -->
+
+</body>
+</html>
