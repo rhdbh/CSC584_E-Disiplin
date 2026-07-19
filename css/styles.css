@@ -1,68 +1,203 @@
-body, html {
+/* =========================
+   GENERAL
+========================= */
+
+body {
+    font-family: Tinos, sans-serif;
+    background: url("../img/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     margin: 0;
     padding: 0;
-    font-family: Verdana, Verdana;
-    height: 100%; 
-    background: url('../img/background.jpg') no-repeat center center fixed;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
-.container {
-    background: #fff;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width:1000px;
+h1,
+h2 {
     text-align: center;
-    position: relative;
-}
-
-.card-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 5px;
-}
-
-.card {
-    width: 150px;
-    text-align: center;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-
-h1 {
     color: #333;
     margin-bottom: 20px;
 }
 
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================
+   FORM
+========================= */
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ccc;
+}
+
+th {
+    background: #527FFA;
+    color: white;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* =========================
+   COMMON BUTTON
+========================= */
+
 .button {
     display: inline-block;
+    font-family: Tinos, sans-serif;
+    background: #527FFA;
+    color: white;
     padding: 10px 20px;
-    margin: 10px 0;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
     text-decoration: none;
-    color: #fff;
-    background-color: #007BFF;
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background: #2C4485;
 }
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-btn,
+.back-button {
+    display: inline-block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: white;
+    background: #4CAF50;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.back-btn:hover,
+.back-button:hover {
+    background: #388E3C;
+}
+
+/* =========================
+   EDIT & DELETE BUTTONS
+========================= */
+
+.action-btn {
+    display: inline-block;
+    margin: 0 3px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+.edit-btn {
+    background: #4CAF50;
+}
+
+.edit-btn:hover {
+    background: #388E3C;
+}
+
+.delete-btn {
+    background: #f44336;
+}
+
+.delete-btn:hover {
+    background: #d32f2f;
+}
+
+/* =========================
+   NAVIGATION LINK
+========================= */
+
+.nav-link {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* =========================
+   DASHBOARD CARDS
+========================= */
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    width: 180px;
+    text-align: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    margin: 10px 0;
+}
+
+/* =========================
+   DASHBOARD BUTTONS
+========================= */
 
 .button-secondary {
     background-color: #6c757d;
@@ -76,145 +211,50 @@ h1 {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: #ff4c4c;
+    background-color: #dc3545;
     color: white;
     padding: 10px 20px;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
+    text-decoration: none;
 }
 
 .logout-button:hover {
-    background-color: #cc3b3b;
+    background-color: #c82333;
 }
 
-.back-button {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    color: #fff;
-    background-color: #ff5900; 
-}
-
-.back-button:hover {
-    background-color: #b3ad00;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-}
-
-.table th, .table td {
-    border: 1px solid #ddd;
-    text-align: center;
-    padding: 10px;
-}
-
-.table th {
-    background-color: #007BFF;
-    color: white;
-}
-
-.table tr:hover {
-     background-color: #f1f1f1;
-}
+/* =========================
+   ACTION BUTTON GROUPS
+========================= */
 
 .action-buttons {
-     display: flex;
-     justify-content: center;
-     gap: 10px;
-}
-
-.action-buttons button {
-     padding: 8px 12px;
-     border: none;
-     border-radius: 5px;
-     font-size: 14px;
-     cursor: pointer;
-     transition: background 0.3s ease;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 .action-buttons .edit {
-     background-color: #ffc107;
-     color: white;
+    background: #ffc107;
+    color: black;
 }
 
 .action-buttons .edit:hover {
-     background-color: #e0a800;
+    background: #e0a800;
 }
 
 .action-buttons .complete {
-     background-color: #28a745;
-     color: white;
+    background: #28a745;
+    color: white;
 }
 
 .action-buttons .complete:hover {
-     background-color: #218838;
+    background: #218838;
 }
 
 .action-buttons .delete {
-     background-color: #dc3545;
-     color: white;
+    background: #dc3545;
+    color: white;
 }
 
 .action-buttons .delete:hover {
-     background-color: #c82333;
-}
-
-.add-data {
-     text-align: center;
-     margin: 20px 0;
-}
-
-.add-data button {
-     background-color: #007BFF;
-     color: white;
-     padding: 10px 20px;
-     border: none;
-     border-radius: 5px;
-     font-size: 16px;
-     cursor: pointer;
-     transition: background 0.3s ease;
-}
-
-.add-data button:hover {
-    background-color: #0056b3;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-input {
-    width: 90%;
-    max-width: 300px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-textarea {
-    width: 90%;
-    max-width: 300px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px; 
+    background: #c82333;
 }
