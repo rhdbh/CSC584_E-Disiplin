@@ -1,14 +1,20 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
-    // Elakkan browser memaparkan dashboard lama selepas logout
-    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control",
+            "no-cache, no-store, must-revalidate");
+
+    response.setHeader("Pragma",
+            "no-cache");
+
     response.setDateHeader("Expires", 0);
 
-    // Halang pengguna membuka dashboard tanpa login
-    if (session.getAttribute("loggedUser") == null) {
-        response.sendRedirect(request.getContextPath() + "/login.jsp");
+    if (session.getAttribute("officerEmail") == null) {
+
+        response.sendRedirect(
+                request.getContextPath()
+                + "/login.jsp");
+
         return;
     }
 %>
@@ -154,14 +160,16 @@
     </h1>
 
     <p class="welcome-text">
-        Welcome to E-Disiplin System
+    Welcome,
+    <%= session.getAttribute("officerName") %>
+
     </p>
 
     <div class="card-container">
 
         <!-- Student Management -->
         <a class="card-link"
-           href="${pageContext.request.contextPath}/student.html">
+           href="${pageContext.request.contextPath}/ViewStudentServlet">
 
             <div class="card">
 
