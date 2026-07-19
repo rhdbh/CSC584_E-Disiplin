@@ -1,47 +1,99 @@
 package controller;
 
-import dao.LoginDAO;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.LoginBean;
 
+import util.DBConnection;
+
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
+            HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8");
+        String officerEmail =
+                request.getParameter("officerEmail");
 
-        String staffID = request.getParameter("staffID");
-        String password = request.getParameter("password");
+        String password =
+                request.getParameter("password");
 
-        LoginBean loginBean = new LoginBean(staffID, password);
+        System.out.println("Email = " + officerEmail);
+        System.out.println("Password = " + password);
 
-        LoginDAO loginDAO = new LoginDAO();
+        try {
 
-        if (loginDAO.validateLogin(loginBean)) {
+            Connection conn =
+                    DBConnection.getConnection();
 
-            HttpSession session = request.getSession();
-            session.setAttribute("loggedUser", loginBean);
+            String sql =
+                    "SELECT * FROM HEP_OFFICER "
+                    + "WHERE OFFICER_EMAIL=? "
+                    + "AND OFFICER_PASSWORD=?";
 
-            response.sendRedirect(
-                    request.getContextPath() + "/dashboard.jsp"
-            );
+            PreparedStatement ps =
+                    conn.prepareStatement(sql);
 
-        } else {
+            ps.setString(1, officerEmail);
+            ps.setString(2, password);
+
+            ResultSet rs =
+                    ps.executeQuery();
+
+            if (rs.next()) {
+
+                System.out.println("LOGIN SUCCESS");
+
+                HttpSession session =
+                        request.getSession();
+
+                session.setAttribute(
+                        "officerId",
+                        rs.getInt("OFFICER_ID"));
+
+                session.setAttribute(
+                        "officerName",
+                        rs.getString("OFFICER_NAME"));
+
+                session.setAttribute(
+                        "officerEmail",
+                        rs.getString("OFFICER_EMAIL"));
+
+                response.sendRedirect("dashboard.jsp");
+
+            } else {
+
+                System.out.println("LOGIN FAILED");
+
+                request.setAttribute(
+                        "errorMessage",
+                        "Invalid email or password!");
+
+                request.getRequestDispatcher(
+                        "login.jsp")
+                        .forward(request, response);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
 
             request.setAttribute(
                     "errorMessage",
-                    "Invalid Staff ID/email or password."
-            );
+                    "Login error: " + e.getMessage());
 
-            request.getRequestDispatcher("/login.jsp")
+            request.getRequestDispatcher(
+                    "login.jsp")
                     .forward(request, response);
         }
     }
