@@ -6,77 +6,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <title>Main Menu | E-Disiplin</title>
 	<link rel="stylesheet" href="css/styles.css">
-	<style>
-       body {
-            font-family: Tinos, sans-serif;
-            background: url("img/background.jpg");
-            background-size: cover;     
-            background-repeat: no-repeat;
-            margin: 0px;
-            height: 115vh;               
-            display: flex;   
-            justify-content: center;    
-            align-items: center; 
-        }
-        .container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            width: 700px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        input, textarea {
-            width: 95%;
-            margin: 8px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-}
-.card {
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    width: 150px;   
-    box-shadow: 0 0 5px rgba(0,0,0);
-}
-.button {
-    font-family: Tinos, sans-serif;
-    background: #527FFA;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    display: inline-block; 
-    margin: 0px;
-    cursor: pointer;
-}
-.button:hover {
-    background: #2C4485;
-}
-		.card-img {
-			width: 20%;
-			height: auto;
-			object-fit: cover;
-			border-radius: 5px 5px 0 0;
-			margin-bottom: 0px;
-		}
-	</style>
 </head>
 <body>
     <div class="container">
         <h1 style="text-align: center;">Main Menu | E-Disiplin</h1>       
 <div class="card-container">
-    <div class="card">
-        <a href="student.jsp">
-        <img class="card-img" src="img/student.png" alt="Student Management"></a>
+<div class="card">
+
+    <a href="ViewStudentServlet">
+
+        <img src="img/student.png"
+             class="card-img"
+             alt="Student Management">
+
         <p><b>Student Management</b></p>
-    </div>
+
+    </a>
+
+</div>
     <div class="card">
         <a href="appointment.html">
         <img class="card-img" src="img/user.png" alt="User Management"></a>
