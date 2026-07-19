@@ -2,23 +2,23 @@ package model;
 
 public class LoginBean {
 
-    private String staffID;
+    private String officerEmail;
     private String password;
 
     public LoginBean() {
     }
 
-    public LoginBean(String staffID, String password) {
-        this.staffID = staffID;
+    public LoginBean(String officerEmail, String password) {
+        this.officerEmail = officerEmail;
         this.password = password;
     }
 
-    public String getStaffID() {
-        return staffID;
+    public String getOfficerEmail() {
+        return officerEmail;
     }
 
-    public void setStaffID(String staffID) {
-        this.staffID = staffID;
+    public void setOfficerEmail(String officerEmail) {
+        this.officerEmail = officerEmail;
     }
 
     public String getPassword() {
